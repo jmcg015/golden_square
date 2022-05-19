@@ -1,0 +1,60 @@
+MusicTracker Class Design Recipe
+
+1. Describe the Problem
+So that I can keep track of my music listening, I want to add tracks 
+I've listened to and see a list of them.
+
+2. Design the Class Interface
+Include the initializer and public methods with all parameters and return values.
+
+# EXAMPLE
+
+class MusicTracker
+  def initialize
+    # @songs_listened_to = []
+  end
+
+  def add(song) # song is a string
+    # No return value
+    # adds song to @songs_listened_to
+    # Throws error if song already in @songs_listened_to
+  end
+
+  def show_songs
+    # Displays all songs
+  end
+
+end
+3. Create Examples as Tests
+Make a list of examples of how the class will behave in different situations.
+
+# EXAMPLE
+
+# 1
+music_tracker = MusicTracker.new
+music_tracker.add("Rocketman")
+music_tracker.show_songs
+# => ["Rocketman"]
+
+# 2
+music_tracker = MusicTracker.new
+music_tracker.add("Rocketman")
+music_tracker.add("It's my life")
+music_tracker.show_songs
+# => ["Rocketman", "It's my life"]
+
+# 3
+music_tracker = MusicTracker.new
+music_tracker.add("Rocketman")
+music_tracker.add("Rocketman")
+# Fails, "Song already added to list"
+
+# 4
+music_tracker = MusicTracker.new
+music_tracker.add("")
+ # []
+
+Encode each example as a test. You can add to the above list as you go.
+
+4. Implement the Behaviour
+After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.

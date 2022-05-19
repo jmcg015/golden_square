@@ -1,0 +1,74 @@
+TaskTracker Class Design Recipe
+1. Describe the Problem
+So that I can keep track of my tasks, I want a program that I can add todo tasks to and see a list of them.
+
+So that I can focus on tasks to complete, I want to mark tasks as complete and have them disappear from the list.
+
+Don't worry about user input & output here.
+
+2. Design the Class Interface
+Include the initializer and public methods with all parameters and return values.
+
+# EXAMPLE
+
+class TaskTracker
+  def initialize
+  end
+
+  def add_task(task) # task is a string
+    # Adds task to the class task list and shows tasks
+  end
+
+  def show_tasks
+    # Returns a list of tasks
+  end
+
+  def complete(task) #Task is a string
+    # Throws an exception if task is not in list
+    # Otherwise, deletes the task in @tasks and provides confirmation to user
+  end
+end
+3. Create Examples as Tests
+Make a list of examples of how the class will behave in different situations.
+
+# EXAMPLE
+
+# 1
+task_tracker = TaskTracker.new
+task_tracker.add_task("Wash the dishes")
+task_tracker.show_tasks
+# => @tasks = ["Wash the dishes"]
+
+# 2
+task_tracker = TaskTracker.new
+task_tracker.add_task("Wash the dishes")
+task_tracker.add_task("Wash the car")
+task_tracker.show_tasks
+# => @tasks = ["Wash the dishes", "Wash the car"]
+
+# 3
+task_tracker = TaskTracker.new
+task_tracker.add_task("Wash the dishes")
+task_tracker.complete("Wash the dishes")
+task_tracker.show_tasks
+# => "Deleted "Wash the dishes
+# => @tasks = []
+
+# 4
+task_tracker = TaskTracker.new
+task_tracker.add_task("Wash the dishes")
+task_tracker.add_task("Wash the car")
+task_tracker.complete("Wash the dishes")
+task_tracker.show_tasks
+# => "Deleted "Wash the dishes
+# => @tasks = ["Wash the car"]
+
+# 5
+task_tracker = TaskTracker.new
+task_tracker.add_task("Wash the dishes")
+task_tracker.complete("Wash the car")
+task_tracker.show_tasks
+# Fails, task does not exist
+
+4. Implement the Behaviour
+After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
