@@ -2,9 +2,9 @@ require "todo_list"
 
 RSpec.describe TodoList do
   context "initially" do
-    it "returns an empty completed todo list" do
+    it "returns an empty incomplete todo list" do
       todo_list = TodoList.new
-      expect(todo_list.complete).to eq []
+      expect(todo_list.incomplete).to eq []
     end
   end
 end

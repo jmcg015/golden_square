@@ -1,22 +1,31 @@
 class TodoList
   def initialize
-    @incomplete_tasks = []
+    @todo_list = []
     @completed_tasks = []
   end
 
   def add(todo)
-    @incomplete_tasks << todo
+    @todo_list << todo
   end
 
   def incomplete
-    # Returns all non-done todos
+    @todo_list
   end
 
   def complete
+    @todo_list.each do |todo|
+      if todo.done?
+        @completed_tasks << todo
+      end
+    end
     @completed_tasks
   end
 
   def give_up!
-    # Marks all todos as complete
+    @todo_list.map do |todo|
+      todo.mark_done!
+      @completed_tasks << todo
+    end
+    @completed_tasks
   end
 end
