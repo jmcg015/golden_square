@@ -1,0 +1,22 @@
+# Intergration Tests
+  - Diary can add a diary Entry
+  - Diary can count number of words in all diary entries 
+  - Diary returns list of all DiaryEntries
+  - Reading time is calculated for all DiaryEntries in list
+  - Reading time calculated for all entries, best chunk for user's time is found and returned
+
+# Unit tests
+  Diary
+  - It returns an empty list of entries
+  - 
+
+  Diary Entry
+  - Returns title as string
+  - Returns contents as a string
+  - Counts words of contents, returns as an integer
+  - Calculates reading time
+  - Reading chunk, returns the whole contents as string
+  - Reading chunk returns part of a string
+  - Returns the next chunk of contents
+  - Reading chunk starts over if read all contents
+  - Reading chunk starts over if finished reading on last word
