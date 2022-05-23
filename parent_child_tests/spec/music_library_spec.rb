@@ -21,5 +21,4 @@ RSpec.describe MusicLibrary do
     music_library.add(track_1)
     expect(music_library.search("Radiohead")).to eq [track_1]
   end
-
 end

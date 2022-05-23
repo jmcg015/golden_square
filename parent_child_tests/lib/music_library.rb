@@ -10,8 +10,8 @@ class MusicLibrary
   def all
     @tracks
   end
-  
-  def search(keyword) 
-    @tracks.map { |track| track if track.matches? }
+
+  def search(keyword)
+    @tracks.select { |track| track if track.matches?(keyword) }
   end
 end
