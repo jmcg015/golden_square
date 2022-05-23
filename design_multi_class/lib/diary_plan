@@ -1,0 +1,292 @@
+Diary Multi-Class Planned Design Recipe
+# 1. Describe the Problem
+As a user so that I can record my experiences I want to keep a regular diary
+
+As a user so that I can reflect on my experiences I want to read my past diary entries
+
+As a user so that I can reflect on my experiences in my busy day I want to select 
+diary entries to read based on how much time I have and my reading speed
+
+As a user so that I can keep track of my tasks, I want to keep a todo list along with my diary
+
+As a user so that I can keep track of my contacts I want to see a list of all of the mobile phone numbers in all my diary entries
+
+# 2. Design the Class System
+Consider diagramming out the classes and their relationships. Take care to focus on the details you see as important, not everything. The diagram below uses asciiflow.com but you could also use excalidraw.com, draw.io, or miro.com
+
+
+                                  ┌───────────────────────────────────────┐
+                                  │  Diary                                │
+                                  │   -addEntry(entry)                    │
+                                  │   -show_all_entries                   │
+                                  │   -reading_chunk(minutes, wpm)        │
+                                  │     - =>contents that can be read     │
+                                  │                                       │
+                                  │                                       │
+                                  │  -addTodo(todo)                       │
+                                  │  -show_tasks                          │
+                                  │  -mark_complete                       │
+                                  │                                       │
+                                  │                                       │
+                                  │                                       │
+                                  └──────────────────┬────────────────────┘
+                                                     │
+                                                     │
+                                ┌────────────────────┴────────────────┐
+                                ▼                                     │
+          ┌──────────────────────────────────┐                        ▼
+          │ DiaryEntry(title, contents)      │          ┌──────────────────────────┐
+          │   -title                         │          │ TodoItem(task)           │
+          │   -contents                      │          │  -task                   │
+          │   -reading_time(wpm)             │          │  -add(task)              │
+          │                                  │          │  -complete               │
+          │                                  │          │    - Marks task as done  │
+          │                                  │          │                          │
+          │                                  │          │                          │
+          │                                  │          │                          │
+          │                                  │          │                          │
+          │                                  │          │                          │
+          │                                  │          │                          │
+          │                                  │          │                          │
+          │                                  │          └──────────────────────────┘
+          └──────────────────────────────────┘
+
+
+
+
+
+Also design the interface of each class in more detail.
+
+class Diary
+  def initialize
+    @diary_entries = []
+    @todo_list = []
+    @completed_tasks = []
+    @contacts = []
+  end
+
+  def add_entry(entry) # entry is an instance of DiaryEntry
+    # entry gets added to @diary_entries
+    # Returns nothing
+  end
+
+  def show_entries
+    # Returns a list of all diary entries objects
+  end
+  
+  def reading_chunk(wpm, minutes) # minutes and wpm are integers, 
+    # Returns the most suitable contents that the user can read in the specified time (minutes)
+    # Use DiaryEntry.reading_time to help calculate? Method not needed?
+  end
+
+  def add_task(task) #Task is an instance of TodoTask
+    #Adds task to @todo_list
+  end
+
+  def show_tasks
+    # Returns a list of all tasks to be done
+  end
+
+  def complete_task
+    #marks the task as complete
+    #Returns a list of completed tasks
+  end
+
+  def add_number(entry) #entry is an instance of DiaryEntry
+    #Checks if the entry contains a number. 
+    #If it does, adds number to @contacts as a string
+    # Returns @contacts
+  end
+
+  def show_numbers
+    #Returns @contacts
+  end
+end
+
+class DiaryEntry(title, contents)
+  def initialize(title, contents) # title and artist are both strings
+    @title = title
+    @contents = contents
+  end
+
+  def title
+    @title
+  end
+
+  def contents
+    @contents
+  end
+
+  def reading_time(wpm)
+    #Calculates the reading time needed for the entry
+  end
+
+  def check_for_number
+    #Checks the entry for a telephone number
+    #Returns the number if one is present in entry
+  end
+end
+
+class TodoTask(task)
+  def initialize(task)
+    @task = task
+    @completed_tasks = Hash.new(:incomplete)
+  end
+
+  def task
+    #Returns a string of the task
+  end
+
+  def complete(task)
+    # Marks the task as complete
+  end
+
+  def done?
+    #Checks if the task has been completed
+  end
+end
+
+
+# 3. Create Examples as Integration Tests
+Create examples of the classes being used together in different situations and combinations that reflect the ways in which the system will be used.
+
+# EXAMPLE
+
+# Adds an entry
+diary = Diary.new
+entry = DiaryEntry("Monday", "one two three")
+diary.add_entry(entry)
+expect(diary.contents).to eq [entry]
+
+# Adds multiple entries
+diary = Diary.new
+entry_1 = DiaryEntry("Monday", "one two three")
+entry_2 = DiaryEntry("Tuesday", "four five six")
+diary.add_entry(entry_1)
+diary.add_entry(entry_2)
+expect(diary.contents).to eq [entry_1, entry_2]
+
+        # Shows all entries, above tests don't return items in readable way
+        diary = Diary.new
+        entry_1 = DiaryEntry("Monday", "one two three")
+        entry_2 = DiaryEntry("Tuesday", "four five six")
+        diary.add(entry_1)
+        diary.add(entry_2)
+        expect(diary.contents).to eq [entry_1, entry_2]
+
+# Adds multiple entries
+diary = Diary.new
+entry_1 = DiaryEntry("Monday", "one two three")
+entry_2 = DiaryEntry("Tuesday", "four five six")
+diary.add_entry(entry_1)
+diary.add_entry(entry_2)
+expect(diary.contents).to eq [entry_1]
+
+# Returns entry when we have 1 entry that is readable in the time frame
+diary = Diary.new
+entry_1 = DiaryEntry("Monday", "one two")
+diary.add_entry(entry_1)
+expect(diary.reading_chunk(2, 1)).to eq entry_1
+
+# Returns entry when we have 1 entry that is not readable in the time frame
+diary = Diary.new
+entry_1 = DiaryEntry("Monday", "one two three")
+diary.add_entry(entry_1)
+expect(diary.reading_chunk(2, 1)).to eq nil
+
+# Returns the longest possible entry that the user could read in the time from multiple entries
+diary = Diary.new
+entry_1 = DiaryEntry("Monday", "one two three")
+entry_2 = DiaryEntry("Tuesday", "four five six seven")
+diary.add_entry(entry_1)
+diary.add_entry(entry_2)
+result = diary.reading_chunk(2, 1)
+expect(result).to eq entry_1
+
+# Reading chunk fails if wpm is 0
+diary = Diary.new
+entry = DiaryEntry.new("Monday", "one two three")
+diary.add_entry(entry)
+expect { diary.reading_chunk(0, 1) }.to raise_error "WPM should be positive"
+
+# Adds a task
+diary = Diary.new
+task = add_task("Buy food")
+expect(diary.show_tasks).to eq [task]
+
+# Adds multiple tasks
+diary = Diary.new
+task_1 = add_task("Buy food")
+task_2 = add_task("Buy coffee")
+expect(diary.show_tasks).to eq [task_1, task_2]
+
+# Marks tasks as complete
+diary = Diary.new
+task_1 = add_task("Buy food")
+task_1.complete
+expect(diary.complete).to eq [task_1]
+
+# 4. Create Examples as Unit Tests
+Create examples, where appropriate, of the behaviour of each relevant class at a more granular level of detail.
+
+# Diary
+
+# Has empty entry list when initialized
+diary = diary.new
+expect(diary.show_entries).to eq []
+
+# Has empty contacts list when initialized
+diary = diary.new
+expect(diary.show_contacts).to eq []
+
+# Has empty task list when initialized
+diary = diary.new
+expect(diary.show_tasks).to eq []
+
+
+
+# DiaryEntry
+
+## Returns the title of the entry
+entry = DiaryEntry.new("Monday", "one two three")
+expect(entry.title).to eq "Monday"
+
+## Returns the contents of the entry
+entry = DiaryEntry.new("Monday", "one two three")
+expect(entry.contents).to eq "one two three"
+
+## Returns an integer counting all words of the entry
+entry = DiaryEntry.new("Monday", "one two three")
+expect(entry.reading_time(1)).to eq 3
+
+## Returns the number if one is present in the entry
+entry = DiaryEntry.new("Monday", "one two three")
+expect(entry.check_for_number).to eq false
+
+## Returns the number if one is present in the entry
+entry = DiaryEntry.new("Monday", "123456")
+expect(entry.check_for_number).to eq "123456"
+
+
+# TodoTask
+
+## Returns the task as a string
+task = TodoTask.new("Buy food")
+expect(task.task).to eq "Buy food"
+
+
+## Marks the task as complete
+task = TodoTask.new("Buy food")
+expect(task.complete(task)).to eq :complete
+
+## Returns false if task is incomplete
+task = TodoTask.new("Buy food")
+expect(task.done?).to eq false
+
+## Returns true if task is complete
+task = TodoTask.new("Buy food")
+task.complete(task)
+expect(task.done?).to eq true
+
+# 5. Implement the Behaviour
+After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
