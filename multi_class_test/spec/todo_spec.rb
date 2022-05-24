@@ -11,7 +11,7 @@ RSpec.describe Todo do
   describe "@mark_done!" do
     it "marks the task as complete" do
       todo = Todo.new("Buy food")
-      expect(todo.mark_done!).to eq :complete
+      expect(todo.mark_done!).to eq true
     end
   end
 

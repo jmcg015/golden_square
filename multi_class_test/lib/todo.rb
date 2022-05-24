@@ -1,7 +1,7 @@
 class Todo
   def initialize(task) # task is a string
     @task = task
-    @completed_tasks = Hash.new(:incomplete)
+    @complete = false
   end
 
   def task
@@ -9,12 +9,10 @@ class Todo
   end
 
   def mark_done!
-    task = @task
-    @completed_tasks[task] = :complete
+    @complete = true
   end
 
   def done?
-    task = @task
-    @completed_tasks[task] == :complete ? true : false
+    @complete
   end
 end
