@@ -26,11 +26,12 @@ class Takeaway
   end
 
   def receipt
-    item_prices = []
+    item_list = ""
     @order.each do |item|
-      puts "#{item.name}: £#{item.price}.00"
+      item_list += item.name + " - £#{item.price}.00"
+      item_list += " "
       @order_total += item.price
     end
-    return "Your total is £#{@order_total}.00"
+    return "Your items are: #{item_list.strip}. Your total is £#{@order_total}.00"
   end
 end

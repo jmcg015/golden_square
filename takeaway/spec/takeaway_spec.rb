@@ -27,7 +27,7 @@ RSpec.describe Takeaway do
       food_2 = double :food, name: "pizza", price: 8
       takeaway.order(food)
       takeaway.order(food_2)
-      expect(takeaway.receipt).to eq "Your total is £10.00"
+      expect(takeaway.receipt).to eq "Your items are: chips - £2.00 pizza - £8.00. Your total is £10.00"
     end
   end
 end
