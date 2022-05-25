@@ -12,7 +12,7 @@ I would like to see an itemised receipt with a grand total.
 class Takeaway
   def initialze
     order = [] #stores food that's been ordered
-    order_price = 0
+    order_total = 0
     @menu = [
       {chips: 2},
       {burger: 5},
@@ -20,6 +20,10 @@ class Takeaway
       {soft-drink: 1},
       {water: 0}
     ]
+  end
+
+  def add_to_menu(food) #food is of type Food (name, price)
+    # Adds food item to @menu
   end
 
   def show_menu
@@ -53,6 +57,7 @@ class Food
 end
 
 # 3. Create Examples as Integration Tests
+Food can be added to the menu
 
 Food can be added to the order
 
@@ -61,7 +66,7 @@ Receipt shows prices of all items in order and totals them all up
 # 4. Create Examples as Unit Tests
   ## Takeaway
 Initially order is an empty list
-          Order price is 0
+          Order total is 0
 
 Shows the menu
 
