@@ -8,6 +8,10 @@ I would like to be able to select some number of several available dishes.
 As a customer, so that I can verify that my order is correct
 I would like to see an itemised receipt with a grand total.
 
+# BONUS
+As a customer so that I am reassured that my order will be delivered on time
+I would like to receive a text such as "Thank you! Your order was placed and will be delivered before 18:52" after I have ordered.
+
 # 2. Design the Class System
 class Takeaway
   def initialze
@@ -32,6 +36,10 @@ class Takeaway
 
   def order(food) #food is of type Food
     #adds food to @order
+  end
+
+  def show_order
+    @order
   end
 
   def receipt
@@ -69,6 +77,8 @@ Initially order is an empty list
           Order total is 0
 
 Shows the menu
+
+Shows the order
 
 Mocks - adding food tot he order
       - Printing the itemised receipt

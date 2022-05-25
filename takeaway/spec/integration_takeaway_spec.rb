@@ -9,9 +9,19 @@ RSpec.describe "integration tests" do
     expect(takeaway.show_menu).to eq [food_1]
   end
 
-  xit "adds food to the order" do
+  it "adds food to the order" do
+    takeaway = Takeaway.new
+    food_1 = Food.new("chips", 2)
+    takeaway.order(food_1)
+    expect(takeaway.show_order).to eq [food_1]
   end
 
   xit "shows an itemized cost of each item in order and shows a grand total" do
+    takeaway = Takeaway.new
+    food_1 = Food.new("chips", 2)
+    food_2 = Food.new("pizza", 8)
+    takeaway.order(food_1)
+    takeaway.order(food_2)
+    expect(takeaway.receipt).to eq "Your receipt is: [2, 8] and the total is £10.00"
   end
 end
