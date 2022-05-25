@@ -10,7 +10,11 @@ class Takeaway
   end
 
   def show_menu
-    @menu
+    formatted_menu = ""
+    @menu.select do |item|
+      formatted_menu += item.name + ": £#{item.price}.00"
+    end
+    return formatted_menu
   end
 
   def show_order

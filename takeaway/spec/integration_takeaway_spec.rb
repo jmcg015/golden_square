@@ -6,7 +6,7 @@ RSpec.describe "integration tests" do
     takeaway = Takeaway.new
     food_1 = Food.new("chips", 2)
     takeaway.add_to_menu(food_1)
-    expect(takeaway.show_menu).to eq [food_1]
+    expect(takeaway.show_menu).to eq "chips: £2.00"
   end
 
   it "adds food to the order" do
