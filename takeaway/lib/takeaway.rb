@@ -1,15 +1,12 @@
 require "twilio-ruby"
 
-ACCOUNT_SID = ENV["TWILIO_ACCOUNT_SID"]
-AUTH_TOKEN = ENV["TWILIO_AUTH_TOKEN"]
-
 class Takeaway
   def initialize(terminal)
     @terminal = terminal
     @menu = []
     @order = []
     @order_total = 0
-    @client = ""
+    @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"])
   end
 
   def add_to_menu(food)
@@ -44,14 +41,12 @@ class Takeaway
   end
 
   def place_order
-    @client = Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
-    @client.messages.create(
+    hour = Time.now.strftime("%H").to_i
+    min = Time.now.strftime("%M").to_i
+    message = @client.messages.create(
       from: ENV["TWILIO_NUMBER"],
       to: ENV["MY_NUMBER"],
-      body: "Thank you! Your order was placed and will be delivered before 18:52",
+      body: "Thank you! Your order was placed and will be delivered before #{hour + 1}:#{min}",
     )
   end
 end
-
-takeaway = Takeaway.new(Kernel)
-takeaway.place_order
