@@ -1,5 +1,4 @@
 require "twilio-ruby"
-require_relative "twilio_adapter.rb"
 
 ACCOUNT_SID = ENV["TWILIO_ACCOUNT_SID"]
 AUTH_TOKEN = ENV["TWILIO_AUTH_TOKEN"]
@@ -53,3 +52,6 @@ class Takeaway
     )
   end
 end
+
+takeaway = Takeaway.new(Kernel)
+takeaway.place_order
