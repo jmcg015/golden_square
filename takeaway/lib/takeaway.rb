@@ -1,4 +1,8 @@
-require_relative "food"
+require "twilio-ruby"
+require_relative "twilio_adapter.rb"
+
+ACCOUNT_SID = ENV["TWILIO_ACCOUNT_SID"]
+AUTH_TOKEN = ENV["TWILIO_AUTH_TOKEN"]
 
 class Takeaway
   def initialize(terminal)
@@ -6,6 +10,7 @@ class Takeaway
     @menu = []
     @order = []
     @order_total = 0
+    @client = ""
   end
 
   def add_to_menu(food)
@@ -37,5 +42,14 @@ class Takeaway
       @terminal.puts "#{item.name.capitalize}: £#{item.price}.00"
       @order_total += item.price
     end
+  end
+
+  def place_order
+    @client = Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
+    @client.messages.create(
+      from: ENV["TWILIO_NUMBER"],
+      to: ENV["MY_NUMBER"],
+      body: "Thank you! Your order was placed and will be delivered before 18:52",
+    )
   end
 end

@@ -49,4 +49,10 @@ RSpec.describe Takeaway do
       expect(takeaway.order_total).to eq "Your total is £10.00"
     end
   end
+
+  xit "sends an sms" do
+    terminal = double :terminal
+    takeaway = Takeaway.new(terminal)
+    expect_any_instance_of(TwilioAdapter).to receive(:send_sms).with(hash_including(:body, :to))
+  end
 end
